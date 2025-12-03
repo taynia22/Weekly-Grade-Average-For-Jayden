@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Weekly Grade Report</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f2f2f2;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }
+    .container {
+        background-color: white;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0px 0px 10px rgba(0,0,0,0.2);
+        text-align: center;
+    }
+    input {
+        padding: 10px;
+        margin: 10px 0;
+        width: 80%;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+    }
+    button {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        background-color: #4CAF50;
+        color: white;
+        font-size: 16px;
+        cursor: pointer;
+    }
+    button:hover {
+        background-color: #45a049;
+    }
+    .result {
+        margin-top: 20px;
+        font-size: 20px;
+        font-weight: bold;
+        color: #ff3333;
+    }
+</style>
+</head>
+<body>
+<div class="container">
+    <h2>Weekly Grade Report</h2>
+    <input type="text" id="name" placeholder="Enter your name or admin command">
+    <br>
+    <button onclick="handleInput()">Submit</button>
+    <div class="result" id="result"></div>
+</div>
+
+<script>
+    // Default grade
+    let weeklyGrade = "D";  
+
+    // Secret admin password: "setgrade"
+    function handleInput() {
+        const input = document.getElementById('name').value.trim();
+
+        // Check for admin command: format "/setgrade X" (e.g., "/setgrade A")
+        if(input.startsWith("/setgrade ")) {
+            const newGrade = input.split(" ")[1]?.toUpperCase();
+            if(newGrade && ["A","B","C","D","F"].includes(newGrade)) {
+                weeklyGrade = newGrade;
+                document.getElementById('result').innerHTML = 
+                    `✅ Grade updated successfully!`;
+                document.getElementById('name').value = "";
+            } else {
+                document.getElementById('result').innerHTML = 
+                    "❌ Invalid grade! Use A, B, C, D, or F.";
+            }
+            return;
+        }
+
+        // Only Jayden can see the grade
+        if(input.toLowerCase() === "jayden") {
+            document.getElementById('result').innerHTML = 
+                `${input}, your weekly grade is: ${weeklyGrade}`;
+        } else {
+            document.getElementById('result').innerHTML = 
+                "Sorry, only Jayden can see the grade.";
+        }
+    }
+</script>
+</body>
+</html>
